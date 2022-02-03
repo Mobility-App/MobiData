@@ -1,0 +1,1958 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MobiData-BW",
+    "description": "Mobility Services",
+    "contact": {
+      "name": "VMZ Berlin Betreibergesellschaft mbH",
+      "url": "https://www.vmzberlin.com/"
+    },
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://ip-api.mobidata-bw.de/v1/NVBW"
+    }
+  ],
+  "paths": {
+    "/arrivals/urbanPublicTransport": {
+      "get": {
+        "description": "Receives arrivals for public transport",
+        "operationId": "arrivals/urbanPublicTransport",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DepartureArrival"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    },
+    "/bikesharing/stations": {
+      "get": {
+        "description": "Receives bikesharing stations",
+        "operationId": "bikesharing/stations",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/BikeSharingStation"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    },
+    "/carsharing/stations": {
+      "get": {
+        "description": "Receives carsharing stations",
+        "operationId": "carsharing/stations",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/CarSharingStation"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    },
+    "/departures/urbanPublicTransport": {
+      "get": {
+        "description": "Receives departures for public transport",
+        "operationId": "departures/urbanPublicTransport",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/DepartureArrival"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    },
+    "/incidents/streets": {
+      "get": {
+        "description": "Receives street incidents",
+        "operationId": "incidents/streets",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Incident"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    },
+    "/parking/cars": {
+      "get": {
+        "description": "Receives car parkings",
+        "operationId": "parking/cars",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ParkingPark"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    },
+    "/publicTransport/stations": {
+      "get": {
+        "description": "Receives public transport stations",
+        "operationId": "publicTransport/stations",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "description": "Bounding box (WGS 84) in the form 'long1,lat1,long2,lat2' or 'x1,y1,x2,y2' (f. e. '13.362333,52.454197,13.382947,52.463733'). It is not possible to set a bounding box together with latitude/longitude/radius.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "detail",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DetailState"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "description": "Latitude coordinates (WGS 84). You have to set latitude together with radius and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            "example": "52.4590335"
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "description": "Longitude coordinates (WGS 84). You have to set longitude together with radius and latitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            "example": "13.3738759"
+          },
+          {
+            "name": "operators",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "description": "Radius in meters. You have to set radius together with latitude and longitude.",
+            "required": false,
+            "schema": {
+              "format": "double",
+              "minimum": 0,
+              "type": "number"
+            },
+            "example": "2000"
+          },
+          {
+            "name": "If-Modified-Since",
+            "in": "header",
+            "description": "If-Modified-Since",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PublicTransportStation"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oauth2_application_movebw": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DetailState": {
+        "enum": [
+          "HIGH",
+          "LOW",
+          "MEDIUM"
+        ],
+        "type": "string"
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "districtSection": {
+            "type": "string"
+          },
+          "houseNo": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          }
+        }
+      },
+      "DataType": {
+        "enum": [
+          "EVChargingDispenser",
+          "EVChargingStation",
+          "EVChargingStationSession",
+          "airlineCode",
+          "airport",
+          "airportBuilding",
+          "arrival",
+          "arrivalFlight",
+          "baggageClaim",
+          "bikeRental",
+          "bikesharingBike",
+          "bikesharingStation",
+          "building",
+          "busStation",
+          "businessArea",
+          "carRental",
+          "carsharingCar",
+          "carsharingOperator",
+          "carsharingStation",
+          "catering",
+          "checkInCounter",
+          "coachStation",
+          "commerce",
+          "constrainedAreaRoutingPolicy",
+          "coupon",
+          "currentWeather",
+          "departure",
+          "departureFlight",
+          "departureTimetable",
+          "detectorValues",
+          "elevator",
+          "entrance",
+          "escalator",
+          "fcdHistoryCount",
+          "flightCheckInCounter",
+          "flightGate",
+          "floatingCarData",
+          "floatingCarDataHistory",
+          "forecastWeather",
+          "fuelStation",
+          "gate",
+          "geoNetLink",
+          "geocoding",
+          "geocodingProposal",
+          "geocodingReverse",
+          "geofence",
+          "holiday",
+          "image",
+          "immisLinkValues",
+          "incidentAccessRestrictionStreetExtended",
+          "incidentEvent",
+          "incidentEventExtended",
+          "incidentIndoor",
+          "incidentParticulateMatter",
+          "incidentPublicTransport",
+          "incidentStreet",
+          "incidentStreetExtended",
+          "incidentTollStreetExtended",
+          "infoDesk",
+          "longDistanceTrainStation",
+          "losValue",
+          "meetingPoint",
+          "mobilityImpaired",
+          "monitoring",
+          "netLink",
+          "netLinkSegment",
+          "other",
+          "parkAndRideRoutingPolicy",
+          "parkingBike",
+          "parkingBus",
+          "parkingCar",
+          "parkingCarD2D",
+          "parkingHandicapped",
+          "parkingRoutingPolicy",
+          "parkingSpace",
+          "particulateMatterRoutingPolicy",
+          "passControl",
+          "personalAssist",
+          "pointOfInterest",
+          "preferredConnectionRoutingPolicy",
+          "punctualityData",
+          "redirectionRoutingPolicy",
+          "regionalTrainStation",
+          "ridesharing",
+          "scootersharingScooter",
+          "scootersharingStation",
+          "securityCheck",
+          "service",
+          "shop",
+          "shuttleBusStation",
+          "sight",
+          "signTriggerLine",
+          "speedLosValue",
+          "stairs",
+          "taxi",
+          "taxiRank",
+          "toilet",
+          "trafficDetector",
+          "trafficDetectorGroup",
+          "trafficDetectorGroupLosValue",
+          "trafficDetectorGroupValues",
+          "trafficDetectorValues",
+          "trafficFreeFlowSpeed",
+          "trafficInformationCamera",
+          "trafficIntensity",
+          "trafficLight",
+          "trafficLightTriggerLine",
+          "trafficLosDetailValue",
+          "trafficLosValue",
+          "trafficLosValueExtended",
+          "trafficOccupancy",
+          "travelator",
+          "triggerLine",
+          "urbanPublicTransportStation",
+          "waitingTime"
+        ],
+        "type": "string"
+      },
+      "Geometry": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "x": {
+            "format": "double",
+            "type": "number"
+          },
+          "y": {
+            "format": "double",
+            "type": "number"
+          }
+        }
+      },
+      "TrafficType": {
+        "enum": [
+          "aircraft",
+          "bike",
+          "bus",
+          "car",
+          "cityTrain",
+          "coach",
+          "eBike",
+          "ferry",
+          "metro",
+          "motorbike",
+          "other",
+          "regioTrain",
+          "scooter",
+          "train",
+          "tram",
+          "unknown",
+          "walk",
+          "wheelchair"
+        ],
+        "type": "string"
+      },
+      "DoraData": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          }
+        }
+      },
+      "DepartureArrivalTime": {
+        "type": "object",
+        "properties": {
+          "arrivalTime": {
+            "format": "date",
+            "type": "string"
+          },
+          "departureTime": {
+            "format": "date",
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "platform": {
+            "type": "string"
+          }
+        }
+      },
+      "DepartureStatus": {
+        "enum": [
+          "asPlanned",
+          "backup",
+          "backupTimetable",
+          "cancelled",
+          "delay",
+          "early",
+          "modified",
+          "planned",
+          "timetable"
+        ],
+        "type": "string"
+      },
+      "Type": {
+        "enum": [
+          "GeometryCollection",
+          "LineString",
+          "MultiLineString",
+          "MultiPoint",
+          "MultiPolygon",
+          "Point",
+          "Polygon"
+        ],
+        "type": "string"
+      },
+      "DepartureArrival": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "expected": {
+            "$ref": "#/components/schemas/DepartureArrivalTime"
+          },
+          "line": {
+            "type": "string"
+          },
+          "scheduled": {
+            "$ref": "#/components/schemas/DepartureArrivalTime"
+          },
+          "source": {
+            "type": "string"
+          },
+          "stationId": {
+            "type": "string"
+          },
+          "stationName": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DepartureStatus"
+          }
+        }
+      },
+      "ExternalReference": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "$ref": "#/components/schemas/HttpMethod"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "StateType": {
+        "enum": [
+          "available",
+          "closed",
+          "defective",
+          "free",
+          "inService",
+          "inUse",
+          "occupied",
+          "other",
+          "outOfService",
+          "reserved",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "BikeSharingBike": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "booking": {
+            "$ref": "#/components/schemas/ExternalReference"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateType"
+          },
+          "region": {
+            "type": "string"
+          }
+        }
+      },
+      "HttpMethod": {
+        "enum": [
+          "delete",
+          "get",
+          "post",
+          "put"
+        ],
+        "type": "string"
+      },
+      "BikeSharingStation": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "booking": {
+            "$ref": "#/components/schemas/ExternalReference"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateType"
+          },
+          "bikeCapacity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "bikes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BikeSharingBike"
+            }
+          },
+          "freeBikeCount": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "GeometryPolygon": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "format": "double",
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "LotType": {
+        "enum": [
+          "bike",
+          "bus",
+          "carPark",
+          "handicapped",
+          "lot",
+          "other",
+          "parkAndRide",
+          "parkingSpace",
+          "undergroundCarPark",
+          "unknown",
+          "zone"
+        ],
+        "type": "string"
+      },
+      "ParkingPark": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "feeInformation": {
+            "type": "string"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeometryPolygon"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "quantitySpacesReservedForMobilityImpededPersons": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "quantitySpacesReservedForWomen": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "securityInformation": {
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateType"
+          },
+          "type": {
+            "$ref": "#/components/schemas/LotType"
+          },
+          "capacity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "free": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "CarSharingCar": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "booking": {
+            "$ref": "#/components/schemas/ExternalReference"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateType"
+          },
+          "region": {
+            "type": "string"
+          },
+          "expectedRange": {
+            "$ref": "#/components/schemas/ValueInMeter"
+          },
+          "fuelLevel": {
+            "$ref": "#/components/schemas/ValueInPercent"
+          },
+          "fuelType": {
+            "$ref": "#/components/schemas/FuelType"
+          },
+          "registrationNumber": {
+            "type": "string"
+          },
+          "bagguages": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "batteryCapacity": {
+            "$ref": "#/components/schemas/ValueInKilowattHour"
+          },
+          "carClass": {
+            "type": "string"
+          },
+          "carModel": {
+            "type": "string"
+          },
+          "exterior": {
+            "$ref": "#/components/schemas/RatingType"
+          },
+          "interior": {
+            "$ref": "#/components/schemas/RatingType"
+          },
+          "length": {
+            "$ref": "#/components/schemas/ValueInMeter"
+          },
+          "mileage": {
+            "$ref": "#/components/schemas/ValueInMeter"
+          },
+          "seats": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "technical": {
+            "$ref": "#/components/schemas/RatingType"
+          },
+          "transmission": {
+            "$ref": "#/components/schemas/TransmissionType"
+          }
+        }
+      },
+      "ValueInMeter": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "value": {
+            "format": "double",
+            "type": "number"
+          }
+        }
+      },
+      "ValueInPercent": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "value": {
+            "format": "double",
+            "type": "number"
+          }
+        }
+      },
+      "FuelType": {
+        "enum": [
+          "diesel",
+          "electricity",
+          "hybrid",
+          "hydrogen",
+          "lpg",
+          "petrol",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "ValueInKilowattHour": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "value": {
+            "format": "double",
+            "type": "number"
+          }
+        }
+      },
+      "RatingType": {
+        "enum": [
+          "bad",
+          "good",
+          "neutral",
+          "unknown",
+          "veryBad",
+          "veryGood"
+        ],
+        "type": "string"
+      },
+      "TransmissionType": {
+        "enum": [
+          "automatic",
+          "manual",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "Unit": {
+        "enum": [
+          "ampere",
+          "degree",
+          "degreeCelsius",
+          "euro",
+          "gram",
+          "gramPerKilometer",
+          "hectoPascal",
+          "kilometerPerHour",
+          "kilowatthour",
+          "literPerSquaremeter",
+          "meter",
+          "meterPerSecond",
+          "minute",
+          "percentage",
+          "second",
+          "volt",
+          "watt"
+        ],
+        "type": "string"
+      },
+      "CarSharingStation": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "booking": {
+            "$ref": "#/components/schemas/ExternalReference"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateType"
+          },
+          "carCapacity": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "cars": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CarSharingCar"
+            }
+          },
+          "freeCarCount": {
+            "format": "int32",
+            "type": "integer"
+          }
+        }
+      },
+      "PublicTransportLine": {
+        "type": "object",
+        "properties": {
+          "imageId": {
+            "type": "string"
+          },
+          "line": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          }
+        }
+      },
+      "PublicTransportStation": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "booking": {
+            "$ref": "#/components/schemas/ExternalReference"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateType"
+          },
+          "arrival": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DepartureArrival"
+            }
+          },
+          "departureUri": {
+            "type": "string"
+          },
+          "departures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DepartureArrival"
+            }
+          },
+          "externalUri": {
+            "type": "string"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicTransportLine"
+            }
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      },
+      "ConsequenceType": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        }
+      },
+      "IncidentGeometry": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type1"
+          }
+        }
+      },
+      "IncidentProperty": {
+        "enum": [
+          "accessrestriction",
+          "accident",
+          "blockage",
+          "congestion",
+          "danger",
+          "defective",
+          "event",
+          "future",
+          "incident",
+          "other",
+          "roadwork",
+          "toll"
+        ],
+        "type": "string"
+      },
+      "ReasonType": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        }
+      },
+      "Incident": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "dataType": {
+            "$ref": "#/components/schemas/DataType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "name": {
+            "type": "string"
+          },
+          "networkId": {
+            "type": "string"
+          },
+          "operatorId": {
+            "type": "string"
+          },
+          "removed": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "format": "date",
+            "type": "string"
+          },
+          "trafficType": {
+            "$ref": "#/components/schemas/TrafficType"
+          },
+          "uri": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DoraData"
+          },
+          "consequence": {
+            "$ref": "#/components/schemas/ConsequenceType"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "geometries": {
+            "$ref": "#/components/schemas/IncidentGeometry"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/IncidentGeometry"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IncidentProperty"
+            }
+          },
+          "reason": {
+            "$ref": "#/components/schemas/ReasonType"
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Incident"
+            }
+          },
+          "section": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "streets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "validities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidityType"
+            }
+          }
+        }
+      },
+      "ValidityType": {
+        "type": "object",
+        "properties": {
+          "timeFrom": {
+            "format": "date",
+            "type": "string"
+          },
+          "timeTo": {
+            "format": "date",
+            "type": "string"
+          },
+          "visible": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Type1": {
+        "enum": [
+          "GeometryCollection",
+          "LineString",
+          "MultiLineString",
+          "MultiPoint",
+          "MultiPolygon",
+          "Point",
+          "Polygon"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "oauth2_application_movebw": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://ip-api.mobidata-bw.de/v1/NVBW/sso/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  }
+}
