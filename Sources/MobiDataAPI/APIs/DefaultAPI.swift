@@ -22,30 +22,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: DepartureArrival
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func arrivalsUrbanPublicTransport(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> DepartureArrival {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = arrivalsUrbanPublicTransportWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func arrivalsUrbanPublicTransport(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<DepartureArrival, ErrorResponse>) -> Void)) -> RequestTask {
+        return arrivalsUrbanPublicTransportWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 
@@ -100,30 +87,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: BikeSharingStation
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func bikesharingStations(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> BikeSharingStation {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = bikesharingStationsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func bikesharingStations(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<BikeSharingStation, ErrorResponse>) -> Void)) -> RequestTask {
+        return bikesharingStationsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 
@@ -178,30 +152,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: CarSharingStation
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func carsharingStations(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> CarSharingStation {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = carsharingStationsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func carsharingStations(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<CarSharingStation, ErrorResponse>) -> Void)) -> RequestTask {
+        return carsharingStationsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 
@@ -256,30 +217,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: DepartureArrival
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func departuresUrbanPublicTransport(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> DepartureArrival {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = departuresUrbanPublicTransportWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func departuresUrbanPublicTransport(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<DepartureArrival, ErrorResponse>) -> Void)) -> RequestTask {
+        return departuresUrbanPublicTransportWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 
@@ -334,30 +282,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: Incident
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func incidentsStreets(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> Incident {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = incidentsStreetsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func incidentsStreets(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Incident, ErrorResponse>) -> Void)) -> RequestTask {
+        return incidentsStreetsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 
@@ -412,30 +347,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: ParkingPark
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func parkingCars(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> ParkingPark {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = parkingCarsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func parkingCars(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ParkingPark, ErrorResponse>) -> Void)) -> RequestTask {
+        return parkingCarsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 
@@ -490,30 +412,17 @@ open class DefaultAPI {
      - parameter radius: (query) Radius in meters. You have to set radius together with latitude and longitude. (optional)
      - parameter ifModifiedSince: (header) If-Modified-Since (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - returns: PublicTransportStation
+     - parameter completion: completion handler to receive the result
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func publicTransportStations(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue) async throws -> PublicTransportStation {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = publicTransportStationsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
+    @discardableResult
+    open class func publicTransportStations(bbox: String? = nil, detail: DetailState? = nil, lat: Double? = nil, lng: Double? = nil, operators: [String]? = nil, radius: Double? = nil, ifModifiedSince: String? = nil, apiResponseQueue: DispatchQueue = MobiDataAPIAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<PublicTransportStation, ErrorResponse>) -> Void)) -> RequestTask {
+        return publicTransportStationsWithRequestBuilder(bbox: bbox, detail: detail, lat: lat, lng: lng, operators: operators, radius: radius, ifModifiedSince: ifModifiedSince).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(.success(response.body))
+            case let .failure(error):
+                completion(.failure(error))
             }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
         }
     }
 

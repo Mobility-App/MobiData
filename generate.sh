@@ -8,5 +8,5 @@ openapi-generator generate \
     -i openapi.json \
     -g swift5 \
     --api-name-suffix "" \
-    --additional-properties=projectName=MobiDataAPI,responseAs=AsyncAwait,useSPMFileStructure=true,useBacktickEscapes=true,useClasses=true \
+    --additional-properties=projectName=MobiDataAPI,responseAs=Result,useSPMFileStructure=true,useBacktickEscapes=true,useClasses=true \
     --type-mappings UUID=String \
